@@ -1,34 +1,76 @@
+"use client";
+
 import { Grip } from "lucide-react";
+import { useRef } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 export default function Hero() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const tl = gsap.timeline({ defaults: { ease: "power4.out", duration: 1.2 } });
+
+      tl.fromTo(
+        ".hero-badge",
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, delay: 0.4 }
+      );
+
+      tl.fromTo(
+        ".hero-title h1",
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, stagger: 0.15 },
+        "-=0.9"
+      );
+
+      tl.fromTo(
+        ".hero-desc",
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1 },
+        "-=0.9"
+      );
+
+      tl.fromTo(
+        ".hero-btns",
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1 },
+        "-=0.9"
+      );
+    },
+    { scope: containerRef }
+  );
+
   return (
     <section
       id="home"
+      ref={containerRef}
       className="relative min-h-screen w-full flex items-center justify-center bg-cover bg-center bg-no-repeat overflow-hidden"
       style={{ backgroundImage: "url('/background.png')" }}
     >
       <div className="relative z-10 text-center px-6 flex flex-col gap-6 md:gap-10 max-w-xl md:max-w-none mx-auto pt-28 pb-12 md:py-0">
         {/* Badge */}
-        <div className="flex gap-2 bg-white shadow-md w-fit mx-auto items-center text-[10px] sm:text-xs font-semibold p-1.5 px-3 rounded-full border border-zinc-100 text-teal-600">
+        <div className="hero-badge flex gap-2 bg-white shadow-md w-fit mx-auto items-center text-[10px] sm:text-xs font-semibold p-1.5 px-3 rounded-full border border-zinc-100 text-teal-600">
           <Grip size={14} className="md:w-4 md:h-4" />
           <p className="tracking-wide">EUDR Specialist</p>
         </div>
 
         {/* Title */}
-        <div className="text-[36px] sm:text-4xl md:text-6xl font-[450] flex flex-col gap-2 md:gap-4 tracking-tight leading-tight text-zinc-900">
+        <div className="hero-title text-[36px] sm:text-4xl md:text-6xl font-[450] flex flex-col gap-2 md:gap-4 tracking-tight leading-tight text-zinc-900">
           <h1>Ensure Compliance</h1>
           <h1>Regulation With Agriplot&apos;s</h1>
           <h1>Due Diligence System</h1>
         </div>
 
         {/* Description */}
-        <div className="text-zinc-500 text-xs sm:text-sm md:text-base max-w-sm md:max-w-none mx-auto leading-relaxed">
+        <div className="hero-desc text-zinc-500 text-xs sm:text-sm md:text-base max-w-sm md:max-w-none mx-auto leading-relaxed">
           <p>Introducing the Agriplot Due-Diligence System:</p>
           <p>Your partner for compliance with EU Deforestation Regulation.</p>
         </div>
 
         {/* Buttons */}
-        <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-5 w-full max-w-65 sm:max-w-none mx-auto">
+        <div className="hero-btns flex flex-col sm:flex-row justify-center gap-3 sm:gap-5 w-full max-w-65 sm:max-w-none mx-auto">
           <button className="w-full sm:w-auto cursor-pointer px-6 py-3.5 sm:py-3 bg-black text-white rounded-md text-sm md:text-base font-medium active:scale-[0.98] hover:bg-zinc-900 transition-all">
             Book a demo
           </button>
@@ -40,3 +82,4 @@ export default function Hero() {
     </section>
   );
 }
+

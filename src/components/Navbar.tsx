@@ -16,6 +16,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
   const [activeSection, setActiveSection] = useState("home");
 
   useEffect(() => {
@@ -119,11 +120,23 @@ export default function Navbar() {
 
       return () => mm.revert();
     },
-    { dependencies: [isOpen], scope: containerRef },
+    { dependencies: [isOpen], scope: containerRef }
   );
 
+  useGSAP(() => {
+    gsap.fromTo(
+      headerRef.current,
+      { y: -100, opacity: 0, xPercent: -50 },
+      { y: 0, opacity: 1, xPercent: -50, duration: 1.2, ease: "power4.out", delay: 0.2 }
+    );
+  });
+
+
   return (
-    <header className="fixed top-6 left-1/2 -translate-x-1/2 w-[88%] lg:w-[50%] max-w-5xl z-50 transition-all duration-300">
+    <header
+      ref={headerRef}
+      className="fixed top-6 left-1/2 -translate-x-1/2 w-[88%] lg:w-[50%] max-w-5xl z-50 transition-all duration-300"
+    >
       <div
         ref={containerRef}
         className="w-full bg-black/90 backdrop-blur-md border border-neutral-800 shadow-2xl shadow-black/40 rounded-3xl md:rounded-full px-6 py-3"
